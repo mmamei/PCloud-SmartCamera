@@ -58,7 +58,7 @@ def get_camera():
 
 
 @app.route('/cam',methods=['GET'])
-def main():
+def cam():
     return 'ciao'
 
 
