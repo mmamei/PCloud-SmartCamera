@@ -28,6 +28,12 @@ def load_user(username):
         return User(username)
     return None
 
+
+@app.route('/')
+def main():
+    return 'ciao'
+
+
 @app.route('/login', methods=['POST'])
 def login():
     if current_user.is_authenticated:
