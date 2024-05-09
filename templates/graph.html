@@ -87,9 +87,12 @@
 					function drawBasic() {
 
 						var data = google.visualization.arrayToDataTable([
-							  ['Time', 'PM10', 'Forecast'],
+							  ['Time', 'Link', 'Faces'],
 							  {{data|safe}}
 						]);
+						console.log(data)
+						var view = new google.visualization.DataView(data);
+       					view.setColumns([0, 2]);
 
 
 						  var options = {
@@ -97,13 +100,19 @@
 							  title: 'Time'
 							},
 							vAxis: {
-							  title: 'PM10'
+							  title: 'Num. Faces'
 							}
 						  };
 
 						  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-						  chart.draw(data, options);
+						  chart.draw(view, options);
+
+						  var selectHandler = function(e) {
+          					window.location = data.getValue(chart.getSelection()[0]['row'], 1 );
+       					  }
+
+       				      google.visualization.events.addListener(chart, 'select', selectHandler);
    					}
 
 

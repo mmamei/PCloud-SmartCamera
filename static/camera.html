@@ -9,28 +9,33 @@ function gotMedia(mediaStream) {
   const mediaStreamTrack = mediaStream.getVideoTracks()[0];
   const imageCapture = new ImageCapture(mediaStreamTrack);
   //console.log(imageCapture);
-
+  count = 0
   function capture() {
       imageCapture.takePhoto().then(blob => {
         img = document.getElementById("img")
         img.src = URL.createObjectURL(blob);
 
-        var fd = new FormData();
-        fd.append('file', blob, 'screenshot.png');
+        if(count == 100) {
+            count = 0
 
-        $.ajax({
-            type: 'POST',
-            url: '/upload/cam1',
-            data: fd,
-            processData: false,
-            contentType: false
-        }).done(function(data) {
-            console.log(data);
-        });
+            var fd = new FormData();
+            fd.append('file', blob, 'screenshot.png');
 
-        img.onload = () => { URL.revokeObjectURL(this.src); }
+            $.ajax({
+                type: 'POST',
+                url: '/upload/cam1',
+                data: fd,
+                processData: false,
+                contentType: false
+            }).done(function(data) {
+                console.log(data);
+                img.onload = () => { URL.revokeObjectURL(this.src); }
+            });
+        }
+        count ++
+
       }).catch(error => console.error('takePhoto() error:', error));
-      window.setTimeout(capture,10000)
+      window.setTimeout(capture,100)
   }
   capture()
 }
