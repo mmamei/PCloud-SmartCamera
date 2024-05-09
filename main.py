@@ -84,8 +84,8 @@ def frames(camera):
     fname = blobs[-1]
     bucket = storage_client.bucket('upload-smart-camera')
     blob = bucket.blob(fname)
-    blob.download_to_filename(f'tmp/{fname}.png')
-    return send_file(f'tmp/{fname}.png')
+    blob.download_to_filename(f'/tmp/{fname}.png')
+    return send_file(f'/tmp/{fname}.png')
 
 
 if __name__ == '__main__':
